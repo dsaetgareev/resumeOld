@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,6 +60,7 @@ public class ResumeController {
                 .collect(Collectors.toList()), HttpStatus.OK);
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/list/titles", method = RequestMethod.GET)
     public ResponseEntity<List<TitleDto>> getTitles() {
         return new ResponseEntity<>(resumeService.getAllResumes()
