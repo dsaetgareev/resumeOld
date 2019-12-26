@@ -6,18 +6,17 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.saetdin.resume.Person;
 import ru.saetdin.resume.PersonService;
 import ru.saetdin.resume.Resume;
 import ru.saetdin.resume.ResumeService;
 import ru.saetdin.resume.dto.ResumeDto;
 import ru.saetdin.resume.dto.TitleDto;
+import ru.saetdin.resume.utils.ResumeUtil;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -67,5 +66,20 @@ public class ResumeController {
                 .parallelStream()
                 .map(resume -> conversionService.convert(resume, TitleDto.class))
                 .collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    public ResponseEntity<ResumeDto> getResumeById(@PathVariable(name = "id") String id) {
+        Resume resume = resumeService.getResumeById(UUID.fromString(id));
+        return new ResponseEntity<ResumeDto>(conversionService.convert(resume, ResumeDto.class), HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(path = "/update", method = RequestMethod.POST)
+    public void updateResume(@RequestBody ResumeDto resumeDto) {
+        Resume resume = resumeService.getResumeById(UUID.fromString(resumeDto.getId()));
+        ResumeUtil.convertResumeDtoToResume(resumeDto, resume);
+        resumeService.update(resume);
     }
 }

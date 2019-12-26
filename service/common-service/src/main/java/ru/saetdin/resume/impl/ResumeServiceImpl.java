@@ -27,7 +27,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public Resume getResumeByAuthor(UUID id) {
+    public Resume getResumeById(UUID id) {
         return resumeRepositoryService.read(id);
     }
 
