@@ -12,6 +12,12 @@ class DesktopForm extends React.Component {
     title = this.props.initialValues.title;
     content = this.props.initialValues.content;
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        this.setTitle();
+        this.setContent();
+        this.props.getTitlesThunkCreator();
+    }
+
     setTitle = () => {
         return (<Field placeholder={"Заголовок"}
                        component={InputForm}
@@ -35,6 +41,8 @@ class DesktopForm extends React.Component {
 
     render() {
         this.editable = this.props.initialValues.editable;
+        this.title = this.props.initialValues.title;
+        this.content = this.props.initialValues.content;
         return (
             <div>
                 <form onSubmit={this.props.handleSubmit}>

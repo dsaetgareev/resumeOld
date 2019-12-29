@@ -12,6 +12,7 @@ class Desktop extends React.Component{
     onSubmit = (formData) => {
         let newEditable = !formData.editable;
         this.props.updateEditable(formData.title, formData.content, newEditable);
+        this.props.getTitlesThunkCreator();
     };
 
     render =() => {
@@ -21,7 +22,9 @@ class Desktop extends React.Component{
         return (
             <div className={s.desktop}>
                 <div>
-                    <DesktopFormRedux onSubmit={this.onSubmit} initialValues={this.props.desktopPage} />
+                    <DesktopFormRedux onSubmit={this.onSubmit}
+                                      initialValues={this.props.desktopPage}
+                                      getTitlesThunkCreator={this.props.getTitlesThunkCreator}/>
                 </div>
             </div>
         );
