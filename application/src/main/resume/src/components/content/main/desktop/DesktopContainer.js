@@ -4,6 +4,7 @@ import {
     updateBodyTextActionCreator, updateEditableActionCreator,
     updateHeadingTextActionCreator
 } from "../../../../store/reducers/desktop/DesktopReducer";
+import {getTitlesThunkCreator} from "../../../../store/reducers/nav/NavbarReducer";
 
 let mapStateToProps = (state) => {
     return {
@@ -20,6 +21,9 @@ let mapDispatchToProps = (dispatch) => {
         },
         updateEditable: (headingText, bodyText, editable) => {
             dispatch(updateEditableActionCreator(headingText, bodyText, editable));
+        },
+        getTitlesThunkCreator: () => {
+            dispatch(getTitlesThunkCreator())
         }
     };
 };

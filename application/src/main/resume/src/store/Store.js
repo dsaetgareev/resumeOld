@@ -5,13 +5,15 @@ import notesReducer from "./reducers/desktop/NotesReducer";
 import dataBaseReducer from "./reducers/desktop/DataBaseReducer";
 import navReducer from "./reducers/nav/NavbarReducer";
 import thunk from "redux-thunk";
+import {reducer as formReducer} from "redux-form";
 
 let reducers = combineReducers({
     desktopPage: desktopReducer,
     descPage: descriptionReducer,
     notesPage: notesReducer,
     pages: dataBaseReducer,
-    titles: navReducer
+    titles: navReducer,
+    form: formReducer
 });
 
 let store = createStore(reducers, applyMiddleware(thunk));

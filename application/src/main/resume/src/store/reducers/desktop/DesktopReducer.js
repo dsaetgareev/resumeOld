@@ -1,18 +1,20 @@
+import ApiResume from "../../../api/ApiResume";
+import {getTitlesThunkCreator} from "../nav/NavbarReducer";
+
 const ADD_DESKTOP = 'ADD_DESKTOP';
 const UPDATE_HEADING_TEXT = 'UPDATE_HEADING_TEXT';
 const UPDATE_BODY_TEXT = 'UPDATE_BODY_TEXT';
 const CHANGE_EDITABLE = 'CHANGE_EDITABLE';
 const UPDATE_DESKTOP = 'UPDATE_DESKTOP';
+const SET_RESUME_BY_ID = 'SET_RESUME_BY_ID';
 
 let initState = {
-    desktopPage: {
         id: 1,
-        editable: true,
-        heading: 'Заголовок',
-        body: 'Перевод с английского, немецкого, французского, испанского, польского, турецкого и других языков на русский и обратно. Возможность переводить ...'
+        editable: false,
+        title: 'Заголовок',
+        content: 'Перевод с английского, немецкого, французского, испанского, польского, турецкого и других языков на русский и обратно. Возможность переводить ...'
 
-    }
-};
+    };
 
 const desktopReducer = (state = initState, action = {}) => {
     switch (action.type) {
@@ -26,30 +28,44 @@ const desktopReducer = (state = initState, action = {}) => {
                 }
             };
             return addCopyState;
-        case UPDATE_HEADING_TEXT:
-            let updateCopyState = {...state};
-            updateCopyState.desktopPage.heading = action.newText;
-            return updateCopyState;
-        case UPDATE_BODY_TEXT:
-            let updateBodyCopyState = {...state};
-            updateBodyCopyState.desktopPage.body = action.newText;
-            return updateBodyCopyState;
         case CHANGE_EDITABLE:
             let updateEditableCopyState = {...state};
-            updateEditableCopyState.desktopPage.heading = action.newHeading;
-            updateEditableCopyState.desktopPage.body = action.newBody;
-            updateEditableCopyState.desktopPage.editable = action.newEditable;
+            updateEditableCopyState.title = action.title;
+            updateEditableCopyState.content = action.content;
+            updateEditableCopyState.editable = action.editable;
+            if (!action.newEditable) {
+                let resumeSave={
+                    id: updateEditableCopyState.id,
+                    title: action.title,
+                    content: action.content
+                };
+                updateResume(resumeSave);
+            }
             return updateEditableCopyState;
-        case UPDATE_DESKTOP:
-            let updateDesktopCopyState = {...state};
-            updateDesktopCopyState.desktopPage.id = action.state.id;
-            updateDesktopCopyState.desktopPage.heading = action.state.desktopPage.heading;
-            updateDesktopCopyState.desktopPage.body = action.state.desktopPage.body;
-            updateDesktopCopyState.desktopPage.editable = action.state.desktopPage.editable;
-            return updateDesktopCopyState;
+        case SET_RESUME_BY_ID:
+            let setDesktopCopyState = {...state};
+            setDesktopCopyState.id = action.resume.id;
+            setDesktopCopyState.title = action.resume.title;
+            setDesktopCopyState.content = action.resume.content;
+            setDesktopCopyState.editable = false;
+            return setDesktopCopyState;
         default:
             return state;
 
+    }
+};
+
+let updateResume = (resume) => {
+    ApiResume.updateResume(resume);
+};
+
+let setResume = (resume) => ({type: SET_RESUME_BY_ID, resume: resume});
+
+export const getResumeThunkCreator = (id) => {
+    return (dispatch) => {
+        ApiResume.getResumeById(id).then(res => {
+            dispatch(setResume(res.data));
+        })
     }
 };
 
@@ -73,12 +89,12 @@ export const updateBodyTextActionCreator = (text) => {
     }
 };
 
-export const updateEditableActionCreator = (headingText, bodyText, editable) => {
+export const updateEditableActionCreator = (title, content, editable) => {
     return {
         type: CHANGE_EDITABLE,
-        newHeading: headingText,
-        newBody: bodyText,
-        newEditable: editable
+        title: title,
+        content: content,
+        editable: editable
     }
 };
 

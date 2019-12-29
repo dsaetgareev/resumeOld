@@ -1,8 +1,6 @@
 import React from 'react';
 import s from './Navbar.module.css'
 import NavItem from "./NavItem";
-import NavMenu from "./NavMenu";
-import ApiTitles from "../../api/ApiTitles";
 
 class Navbar extends React.Component{
 
@@ -17,18 +15,19 @@ class Navbar extends React.Component{
     }
 
     componentDidMount = () => {
-        debugger
         this.props.getTitlesThunkCreator();
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        debugger
-
+        this.state.titles = this.props.titles.titles;
+        this.state.items = this.state.titles.map((item) => <NavItem key={item.resumeId}
+                                                                    id={item.resumeId}
+                                                                    value={item.title}
+                                                                    toDesktop={this.toDesktop}/>);
     }
 
     toDesktop = (id) => {
-        let s = this.getPageState(id, this.props.state.pages);
-        this.props.toDesktop(s);
+        this.props.toDesktop(id);
     };
 
     getPageState = (id, pages) => {
@@ -42,13 +41,16 @@ class Navbar extends React.Component{
         return temp;
     };
 
-    render = () => {
-        debugger
+    renderItems = () => {
         this.state.titles = this.props.titles.titles;
         this.state.items = this.state.titles.map((item) => <NavItem key={item.resumeId}
                                                                     id={item.resumeId}
                                                                     value={item.title}
                                                                     toDesktop={this.toDesktop}/>);
+    };
+
+    render = () => {
+        this.renderItems();
         return (
             <nav className={s.sidebar}>
                 {this.state.items}

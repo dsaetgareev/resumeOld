@@ -1,4 +1,4 @@
-import ApiTitles from "../../../api/ApiTitles";
+import ApiResume from "../../../api/ApiResume";
 import NavItem from "../../../components/navbar/NavItem";
 import React from "react";
 
@@ -20,7 +20,9 @@ const navReducer = (state = initState, action) => {
     switch (action.type) {
 
         case SET_TITLES:
-            return {...state, titles: action.titles}
+            let setTitlesStateCopy = {...state};
+            setTitlesStateCopy.titles = action.titles;
+            return setTitlesStateCopy;
         case ADD_NAV_ITEM:
             let item =
                 {
@@ -49,7 +51,7 @@ export const addNavItemActionCreator = (name) => {
 
 export const getTitlesThunkCreator = () => {
     return (dispatch) => {
-        ApiTitles.getTitles().then(res => {
+        ApiResume.getTitles().then(res => {
             dispatch(setTitles(res.data))
         })
     }

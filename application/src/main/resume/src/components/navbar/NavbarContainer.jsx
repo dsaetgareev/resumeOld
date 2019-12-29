@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
 import Navbar from "./Navbar";
-import {updateDesktopActionCreator} from "../../store/reducers/desktop/DesktopReducer";
+import {getResumeThunkCreator, updateDesktopActionCreator} from "../../store/reducers/desktop/DesktopReducer";
 import {getTitlesThunkCreator} from "../../store/reducers/nav/NavbarReducer";
 
 let mapStateToProps = (state) => {
@@ -13,16 +13,13 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
 
     return {
-        toDesktop: (state) => {
-            dispatch(updateDesktopActionCreator(state))
+        toDesktop: (id) => {
+            dispatch(getResumeThunkCreator(id))
         },
         getTitlesThunkCreator: () => {
             dispatch(getTitlesThunkCreator())
         }
     }
-
-
-
 };
 
 let NavbarContainer = connect(mapStateToProps, mapDispatchToProps)(Navbar);

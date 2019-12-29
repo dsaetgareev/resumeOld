@@ -3,34 +3,39 @@ import s from './Heading.module.css'
 
 class Heading extends React.Component{
 
+    state = {
+        heading: this.props.heading,
+        editable: this.props.editable
+    };
     heading = this.props.heading;
     editable = this.props.editable;
 
-    refHeading = React.createRef();
+    onChangeHeading = (e) => {
+        this.props.updateHeading(e.currentTarget.value);
+    };
 
-    onChangeHeading = () => {
-        let text = this.refHeading.current.value;
-        this.props.updateHeading(text);
+    componentDidUpdate = (prevProps, prevState, snapshot) => {
+        this.props.getTitlesThunkCreator();
     };
 
     render = () => {
-        this.heading = this.props.heading;
-        this.editable = this.props.editable;
-        if (this.heading === '' || this.editable) {
+        this.state.heading = this.props.heading;
+        this.state.editable = this.props.editable;
+        if (this.state.heading === '' || this.state.editable) {
             return (
                 <div>
                     <div className={s.heading}>
                         <h1>Введите заголовок</h1>
                     </div>
-                    <input type='text' value={this.heading}
+                    <input type='text' value={this.state.heading}
                            onChange={this.onChangeHeading}
-                           ref={this.refHeading}/>
+                           />
                 </div>
             )
         } else {
             return (
                 <h1>
-                    {this.heading}
+                    {this.props.heading}
                 </h1>
             )
         }

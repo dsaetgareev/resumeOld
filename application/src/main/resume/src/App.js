@@ -9,7 +9,7 @@ import HeaderContainer from "./components/header/HeaderContainer";
 function App() {
     return (
         <div className="grid">
-            <HeaderContainer />
+            {/*<HeaderContainer />*/}
             <NavbarContainer/>
             <MainContent/>
             <Footer/>
