@@ -2,10 +2,7 @@ package ru.saetdin.resume;
 
 import ru.saetdin.resume.common.EntityWithId;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class Resume extends EntityWithId {
@@ -15,7 +12,7 @@ public class Resume extends EntityWithId {
     private Person author;
     @Column
     private String title;
-    @Column
+    @Lob
     private String content;
 
     public Resume() {
