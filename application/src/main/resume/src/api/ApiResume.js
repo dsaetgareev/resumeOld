@@ -27,7 +27,7 @@ class ApiResume {
 
     static updateResume = (resume) => {
         return axios.post(`${baseUrl}/resume/update`, resume)
-    }
+    };
 }
 
 export default ApiResume;

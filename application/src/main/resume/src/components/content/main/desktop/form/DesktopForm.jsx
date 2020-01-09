@@ -1,9 +1,9 @@
 import React from "react";
-import s from "../heading/Heading.module.css";
 import {Field} from "redux-form";
 import DesktopMenu from "../menu/DesktopMenu";
 import {TextareaForm} from "../../../form/TextareaForm";
 import {InputForm} from "../../../form/InputForm";
+import s from '../Desktop.module.css'
 
 
 class DesktopForm extends React.Component {
@@ -13,8 +13,6 @@ class DesktopForm extends React.Component {
     content = this.props.initialValues.content;
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        this.setTitle();
-        this.setContent();
         this.props.getTitlesThunkCreator();
     }
 
@@ -54,7 +52,7 @@ class DesktopForm extends React.Component {
                         {this.setContent()}
                     </div>
                     <div>
-                        <DesktopMenu editable={this.props.initialValues.editable}/>
+                        <DesktopMenu editable={this.props.initialValues.editable} className={s.menu}/>
                     </div>
                 </form>
             </div>
